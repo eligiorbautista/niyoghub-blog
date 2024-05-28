@@ -107,7 +107,10 @@ export function setupControllers() {
 
         sendResetPasswordEmail(email, resetLink);
 
-        res.status(200).json({ message: "Reset link sent successfully" });
+        res
+          .cookie("emailToReset", email)
+          .status(200)
+          .json({ message: "Reset link sent successfully" });
       } catch (error) {
         console.error("Error sending reset link:", error);
         res.status(500).json({ message: "Internal server error" });
@@ -115,10 +118,11 @@ export function setupControllers() {
     },
 
     updatePassword: async (req, res) => {
-      const { newPassword, email, token } = req.body;
+      const { newPassword, token } = req.body;
+      const emailToReset = req.cookies.emailToReset;
 
       try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: emailToReset });
 
         if (!user) {
           return res.status(404).json({ message: "User not found" });
@@ -141,7 +145,10 @@ export function setupControllers() {
 
         await user.save();
 
-        res.status(200).json({ message: "Password updated successfully" });
+        res
+          .cookie("emailToReset", "")
+          .status(200)
+          .json({ message: "Password updated successfully" });
       } catch (error) {
         console.error("Error updating password:", error);
         res.status(500).json({ message: "Internal server error" });

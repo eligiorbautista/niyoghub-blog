@@ -18,11 +18,11 @@ const ForgotPassword = () => {
         method: "POST",
         body: JSON.stringify({ email }),
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
       });
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem("emailToReset", email);
         toast.success("Reset link sent successfully!", TOAST_PREFERENCE);
       } else {
         const data = await response.json();

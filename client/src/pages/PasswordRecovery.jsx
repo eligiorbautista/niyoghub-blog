@@ -11,7 +11,6 @@ const PasswordRecovery = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { storedToken } = useParams();
-  const emailToReset = localStorage.getItem("emailToReset");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,10 +27,10 @@ const PasswordRecovery = () => {
         method: "POST",
         body: JSON.stringify({
           newPassword,
-          email: emailToReset,
           token: storedToken,
         }),
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
       });
 
       const data = await response.json();
@@ -44,7 +43,6 @@ const PasswordRecovery = () => {
       );
     } finally {
       setLoading(false);
-      localStorage.removeItem("emailToReset");
     }
   };
 

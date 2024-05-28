@@ -1,15 +1,15 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { TOAST_PREFERENCE } from '../constants';
-import { UserContext } from '../components/UserContext';
-import Loader from '../components/Loader';
-import { FaGoogle } from 'react-icons/fa'; // Import Google icon from react-icons/fa
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { TOAST_PREFERENCE } from "../constants";
+import { UserContext } from "../components/UserContext";
+import Loader from "../components/Loader";
+import { FaGoogle } from "react-icons/fa"; // Import Google icon from react-icons/fa
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setUserInfo } = useContext(UserContext);
@@ -17,10 +17,16 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (location.state?.passwordReset) {
-      toast.success("Password changed successfully. Please log in with your new password.", TOAST_PREFERENCE);
+      toast.success(
+        "Password changed successfully. Please log in with your new password.",
+        TOAST_PREFERENCE
+      );
     }
     if (location.state?.accountRegistered) {
-      toast.success("Hooray! You've successfully registered.", TOAST_PREFERENCE);
+      toast.success(
+        "Hooray! You've successfully registered.",
+        TOAST_PREFERENCE
+      );
     }
   }, [location.state]);
 
@@ -29,20 +35,20 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
         body: JSON.stringify({ email, password }),
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include'
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
       });
 
       if (response.ok) {
         const userInfo = await response.json();
         setUserInfo(userInfo);
-        toast.success('Login successful!', TOAST_PREFERENCE);
-        setEmail('');
-        setPassword('');
-        navigate('/');
+        toast.success("Login successful!", TOAST_PREFERENCE);
+        setEmail("");
+        setPassword("");
+        navigate("/");
       } else {
         const data = await response.json();
         toast.error(data.message, TOAST_PREFERENCE);
@@ -55,7 +61,10 @@ const LoginPage = () => {
   };
 
   const handleGoogleSignIn = () => {
-    toast.info('Google login is not available at the moment.', TOAST_PREFERENCE);
+    toast.info(
+      "Google login is not available at the moment.",
+      TOAST_PREFERENCE
+    );
   };
 
   return (
@@ -74,7 +83,10 @@ const LoginPage = () => {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
               Email address
             </label>
             <div className="mt-2">
@@ -92,9 +104,12 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className='mt-2'>
+          <div className="mt-2">
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Password
               </label>
               <div className="text-sm">
@@ -138,10 +153,12 @@ const LoginPage = () => {
           <FaGoogle className="mr-2 mt-1" /> Sign in with Google
         </button>
 
-
         <p className="mt-10 text-center text-sm text-gray-500">
           Don't have an account?
-          <Link to={"/register"} className="font-semibold leading-6 text-gray-900 hover:text-gray-500 ml-1 text-sm">
+          <Link
+            to={"/register"}
+            className="font-semibold leading-6 text-gray-900 hover:text-gray-500 ml-1 text-sm"
+          >
             Register
           </Link>
         </p>
