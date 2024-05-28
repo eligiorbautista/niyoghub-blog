@@ -1,63 +1,35 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./pages/Login";
-import Registration from "./pages/Registration";
+import "./App.css";
+import HomePage from "./pages/HomePage";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import MainLayout from "./Layout/MainLayout";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import About from "./pages/About";
+import CreatePost from "./pages/CreatePost";
+import PostPage from "./pages/PostPage";
+import EditPost from "./pages/EditPost";
 import ForgotPassword from "./pages/ForgotPassword";
-import ChangePassword from "./pages/ChangePassword";
-import OneTimePassword from "./pages/OneTimePassword";
-import PageNotFound from "./pages/PageNotFound";
-import BrowseNotes from "./pages/BrowseNotes";
-import CreateNote from "./pages/CreateNote";
-import Home from "./pages/Home";
-import Authenticator from "./components/Authenticator";
-
-function Logout() {
-  localStorage.clear();
-  return <Navigate to="/login" replace />;
-}
-
-function RegisterAndLogout() {
-  localStorage.clear();
-  return <Registration />;
-}
+import PasswordRecovery from "./pages/PasswordRecovery";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Authenticator>
-              <Home />
-            </Authenticator>
-          }
-        />
-        <Route
-          path="/new-note"
-          element={
-            <Authenticator>
-              <CreateNote />
-            </Authenticator>
-          }
-        />
-        <Route
-          path="/my-notes"
-          element={
-            <Authenticator>
-              <BrowseNotes />
-            </Authenticator>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/register" element={<RegisterAndLogout />} />
-        <Route path="/recovery" element={<ForgotPassword />} />
-        <Route path="/new-password" element={<ChangePassword />} />
-        <Route path="/otp" element={<OneTimePassword />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/recovery/:token" element={<PasswordRecovery />} />
+            <Route path="/create" element={<CreatePost />} />
+            <Route path="/post/:id" element={<PostPage />} />
+            <Route path="/edit/:id" element={<EditPost />} />
+            <Route path="/about" element={<About />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

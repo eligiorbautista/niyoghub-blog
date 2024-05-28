@@ -1,4 +1,4 @@
-import { toast, Slide, Bounce, Flip, Zoom } from "react-toastify";
+import { Bounce } from "react-toastify";
 
 export const TOAST_PREFERENCE = {
   position: "bottom-right",
